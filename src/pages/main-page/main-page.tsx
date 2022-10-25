@@ -1,4 +1,4 @@
-function Main(): JSX.Element {
+function MainPage(): JSX.Element {
   return (
 
     <body className="page page--gray page--main">
@@ -241,4 +241,4 @@ function Main(): JSX.Element {
 
 
 }
-export default Main;
+export default MainPage;
