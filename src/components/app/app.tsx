@@ -1,7 +1,8 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { LoginPage, MainPage, NotFoundPage, RoomPage } from '../../pages';
-import { AppRoutes } from '../../router/urlRouter';
+import { MainPage, LoginPage, RoomPage, NotFoundPage } from 'pages';
 import useApp from './useApp';
+import { AppRoutes } from 'router';
+
 
 
 function App(): JSX.Element {

@@ -1,13 +1,18 @@
+import { Logo } from 'components';
+import { useParams } from 'react-router-dom';
+
+
 function RoomPage():JSX.Element {
+  const {id} = useParams();
+  // eslint-disable-next-line no-console
+  console.log(id);
   return (
     <div className="page">
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <a className="header__logo-link" href="main.html">
-                <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
-              </a>
+              <Logo />
             </div>
             <nav className="header__nav">
               <ul className="header__nav-list">
