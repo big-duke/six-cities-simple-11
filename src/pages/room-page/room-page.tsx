@@ -1,13 +1,15 @@
 import { Logo } from 'components';
+import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
 
 
-function RoomPage():JSX.Element {
-  const {id} = useParams();
-  // eslint-disable-next-line no-console
-  console.log(id);
+function RoomPage(): JSX.Element {
+  const { id } = useParams<{ id?: string }>();
   return (
     <div className="page">
+      <Helmet>
+        <title>{`6 Cities | Offer | ${id ?? ''}`}</title>
+      </Helmet>
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
@@ -64,25 +66,25 @@ function RoomPage():JSX.Element {
               </div>
               <div className="property__name-wrapper">
                 <h1 className="property__name">
-                Beautiful &amp; luxurious studio at great location
+                  Beautiful &amp; luxurious studio at great location
                 </h1>
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
-                  <span style={{width: '80%'}}></span>
+                  <span style={{ width: '80%' }}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="property__rating-value rating__value">4.8</span>
               </div>
               <ul className="property__features">
                 <li className="property__feature property__feature--entire">
-                Apartment
+                  Apartment
                 </li>
                 <li className="property__feature property__feature--bedrooms">
-                3 Bedrooms
+                  3 Bedrooms
                 </li>
                 <li className="property__feature property__feature--adults">
-                Max 4 adults
+                  Max 4 adults
                 </li>
               </ul>
               <div className="property__price">
@@ -93,34 +95,34 @@ function RoomPage():JSX.Element {
                 <h2 className="property__inside-title">What&apos;s inside</h2>
                 <ul className="property__inside-list">
                   <li className="property__inside-item">
-                  Wi-Fi
+                    Wi-Fi
                   </li>
                   <li className="property__inside-item">
-                  Washing machine
+                    Washing machine
                   </li>
                   <li className="property__inside-item">
-                  Towels
+                    Towels
                   </li>
                   <li className="property__inside-item">
-                  Heating
+                    Heating
                   </li>
                   <li className="property__inside-item">
-                  Coffee machine
+                    Coffee machine
                   </li>
                   <li className="property__inside-item">
-                  Baby seat
+                    Baby seat
                   </li>
                   <li className="property__inside-item">
-                  Kitchen
+                    Kitchen
                   </li>
                   <li className="property__inside-item">
-                  Dishwasher
+                    Dishwasher
                   </li>
                   <li className="property__inside-item">
-                  Cabel TV
+                    Cabel TV
                   </li>
                   <li className="property__inside-item">
-                  Fridge
+                    Fridge
                   </li>
                 </ul>
               </div>
@@ -131,18 +133,18 @@ function RoomPage():JSX.Element {
                     <img className="property__avatar user__avatar" src="img/avatar-angelina.jpg" width="74" height="74" alt="Host avatar" />
                   </div>
                   <span className="property__user-name">
-                  Angelina
+                    Angelina
                   </span>
                   <span className="property__user-status">
-                  Pro
+                    Pro
                   </span>
                 </div>
                 <div className="property__description">
                   <p className="property__text">
-                  A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.
+                    A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.
                   </p>
                   <p className="property__text">
-                  An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.
+                    An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.
                   </p>
                 </div>
               </div>
@@ -155,18 +157,18 @@ function RoomPage():JSX.Element {
                         <img className="reviews__avatar user__avatar" src="img/avatar-max.jpg" width="54" height="54" alt="Reviews avatar" />
                       </div>
                       <span className="reviews__user-name">
-                      Max
+                        Max
                       </span>
                     </div>
                     <div className="reviews__info">
                       <div className="reviews__rating rating">
                         <div className="reviews__stars rating__stars">
-                          <span style={{width: '80%'}}></span>
+                          <span style={{ width: '80%' }}></span>
                           <span className="visually-hidden">Rating</span>
                         </div>
                       </div>
                       <p className="reviews__text">
-                      A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.
+                        A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.
                       </p>
                       <time className="reviews__time" dateTime="2019-04-24">April 2019</time>
                     </div>
@@ -213,7 +215,7 @@ function RoomPage():JSX.Element {
                   <textarea className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved"></textarea>
                   <div className="reviews__button-wrapper">
                     <p className="reviews__help">
-                    To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
+                      To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
                     </p>
                     <button className="reviews__submit form__submit button" type="submit" disabled>Submit</button>
                   </div>
@@ -242,7 +244,7 @@ function RoomPage():JSX.Element {
                   </div>
                   <div className="place-card__rating rating">
                     <div className="place-card__stars rating__stars">
-                      <span style={{width: '80%'}}></span>
+                      <span style={{ width: '80%' }}></span>
                       <span className="visually-hidden">Rating</span>
                     </div>
                   </div>
@@ -268,7 +270,7 @@ function RoomPage():JSX.Element {
                   </div>
                   <div className="place-card__rating rating">
                     <div className="place-card__stars rating__stars">
-                      <span style={{width: '80%'}}></span>
+                      <span style={{ width: '80%' }}></span>
                       <span className="visually-hidden">Rating</span>
                     </div>
                   </div>
@@ -297,7 +299,7 @@ function RoomPage():JSX.Element {
                   </div>
                   <div className="place-card__rating rating">
                     <div className="place-card__stars rating__stars">
-                      <span style={{width: '100%'}}></span>
+                      <span style={{ width: '100%' }}></span>
                       <span className="visually-hidden">Rating</span>
                     </div>
                   </div>
