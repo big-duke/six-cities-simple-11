@@ -1,6 +1,6 @@
 import { Card, Logo } from 'components';
 import { Helmet } from 'react-helmet-async';
-
+import { offers } from 'mock/offers';
 type MainPageType = {
   offersCount: number;
 }
@@ -94,15 +94,15 @@ function MainPage({ offersCount }: MainPageType): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                <Card />
+                <Card offer={offers[0]} />
 
-                <Card />
+                <Card offer={offers[1]} />
 
-                <Card />
+                <Card offer={offers[2]} />
 
-                <Card />
+                <Card offer={offers[3]} />
 
-                <Card />
+                <Card offer={offers[0]} />
               </div>
             </section>
             <div className="cities__right-section">
