@@ -1,25 +1,32 @@
-import { Link } from 'react-router-dom';
+import { generatePath, Link } from 'react-router-dom';
 import { StarRating } from 'components';
 import { AppRoutes } from 'router';
-import { Offer } from 'types';
+import { Nullable, Offer } from 'types';
 
 import './style.css';
 
 type CardProps = {
   offer: Offer;
+  setActiveCard: (offer: Nullable<Offer>) => void;
 }
-function Card({ offer }: CardProps): JSX.Element {
+function Card({ offer, setActiveCard }: CardProps): JSX.Element {
+  // eslint-disable-next-line no-console
+  const offerDetailRef = generatePath(AppRoutes.ROOM, { id: offer.id.toString() });
   return (
 
-    <article className="cities__card place-card">
+    <article className="cities__card place-card"
+      onMouseEnter={() => setActiveCard(offer)}
+      onMouseLeave={() => setActiveCard(null)}
+    >
+
       {offer.isPremium &&
         <div className="place-card__mark">
           <span>Premium</span>
         </div>}
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <a href="/">
+        <Link to={offerDetailRef}>
           <img className="place-card__image" src={offer.previewImage} width="260" height="200" alt={offer.description} />
-        </a>
+        </Link>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
@@ -36,7 +43,7 @@ function Card({ offer }: CardProps): JSX.Element {
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={`${AppRoutes.ROOM}/${offer.id}`}>{offer.title}</Link>
+          <Link to={offerDetailRef}>{offer.title}</Link>
         </h2>
         <p className="place-card__type">{offer.type}</p>
       </div>
