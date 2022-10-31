@@ -6,7 +6,7 @@ import { HelmetProvider } from 'react-helmet-async';
 
 
 function App(): JSX.Element {
-  const { offersCount } = useApp();
+  const { offersCount} = useApp();
   return (
     <HelmetProvider>
       <BrowserRouter>
