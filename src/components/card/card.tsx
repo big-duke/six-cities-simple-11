@@ -12,6 +12,7 @@ type CardProps = {
 function Card({ offer, setActiveCard }: CardProps): JSX.Element {
   // eslint-disable-next-line no-console
   const offerDetailRef = generatePath(AppRoutes.ROOM, { id: offer.id.toString() });
+
   return (
 
     <article className="cities__card place-card"
