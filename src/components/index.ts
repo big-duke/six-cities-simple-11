@@ -8,3 +8,4 @@ export { PropertyGoods } from './property-goods';
 export { ReviewsList } from './reviews-list';
 export { PropertyGallery } from './property-gallery';
 export { default as PropertyCommentForm } from './property-comment-form/comment-form';
+export {default as Map} from './map/map';

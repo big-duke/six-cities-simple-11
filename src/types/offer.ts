@@ -15,7 +15,7 @@ export type Offer = {
   location: Location;
   id: number;
 };
-type City = {
+export type City = {
   name: string;
   location: Location;
 };

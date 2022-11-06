@@ -1,4 +1,4 @@
-import { Logo, OfferList } from 'components';
+import { Logo, OfferList, Map } from 'components';
 import { Helmet } from 'react-helmet-async';
 import { offers } from 'mock/offers';
 type MainPageType = {
@@ -96,7 +96,7 @@ function MainPage({ offersCount }: MainPageType): JSX.Element {
               <OfferList offers={offers} />
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <Map />
             </div>
           </div>
         </div>
