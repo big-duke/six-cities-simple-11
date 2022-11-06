@@ -1,24 +1,24 @@
 import { useState, useRef, useEffect, MutableRefObject } from 'react';
 import leaflet, { Map } from 'leaflet';
-import { Offer , Nullable } from 'types';
+import { Nullable, Location } from 'types';
 
 type useMapType = {
-  (mapRef: MutableRefObject<null>, offer: Offer) : Nullable<Map>;
+  (mapRef: MutableRefObject<null>, center: Location): Nullable<Map>;
 };
 
-const useMap:useMapType = (mapRef, offer) => {
+const useMap: useMapType = (mapRef, center) => {
   const [map, setMap] = useState<Nullable<Map>>(null);
-  const location = offer.city.location;
+
   const isRenderedRef = useRef(false);
 
   useEffect(() => {
     if (mapRef.current !== null && !isRenderedRef.current) {
       const instance = leaflet.map(mapRef.current, {
         center: {
-          lat: location.latitude,
-          lng: location.longitude,
+          lat: center.latitude,
+          lng: center.longitude,
         },
-        zoom: location.zoom,
+        zoom: center.zoom,
       });
 
       leaflet
@@ -34,7 +34,7 @@ const useMap:useMapType = (mapRef, offer) => {
       setMap(instance);
       isRenderedRef.current = true;
     }
-  }, [mapRef, location]);
+  }, [mapRef, center]);
 
   return map;
 };

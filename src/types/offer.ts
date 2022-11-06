@@ -19,7 +19,7 @@ export type City = {
   name: string;
   location: Location;
 };
-type Location = {
+export type Location = {
   latitude: number;
   longitude: number;
   zoom: number;

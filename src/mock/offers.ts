@@ -5,9 +5,9 @@ export const offers:Offer[] = [
     city: {
       name: 'Amsterdam',
       location: {
-        latitude: 52.3909553943508,
-        longitude:4.85309666406198,
-        zoom: 13,
+        latitude: 52.370216,
+        longitude: 4.895168,
+        zoom: 12,
       },
     },
     previewImage: 'https://11.react.pages.academy/static/hotel/1.jpg',
@@ -51,8 +51,8 @@ export const offers:Offer[] = [
     description:
       'A new spacious villa, one floor. All commodities, jacuzzi and beautiful scenery. Ideal for families or friends.',
     location: {
-      latitude: 50.954361,
-      longitude: 6.982974,
+      latitude: 52.3909553943508,
+      longitude:4.85309666406198,
       zoom: 16,
     },
     id: 1,
@@ -61,8 +61,8 @@ export const offers:Offer[] = [
     city: {
       name: 'Amsterdam',
       location: {
-        latitude: 52.3609553943508,
-        longitude: 4.85309666406198,
+        latitude: 52.370216,
+        longitude: 4.895168,
         zoom: 13,
       },
     },
@@ -112,8 +112,8 @@ export const offers:Offer[] = [
     description:
       'Discover daily local life in city center, friendly neighborhood, clandestine casino, karaoke, old-style artisans, art gallery and artist studio downstairs.',
     location: {
-      latitude: 50.833557,
-      longitude: 4.374696999999999,
+      latitude: 52.3609553943508,
+      longitude: 4.85309666406198,
       zoom: 16,
     },
     id: 2,
@@ -122,8 +122,8 @@ export const offers:Offer[] = [
     city: {
       name: 'Amsterdam',
       location: {
-        latitude: 52.3909553943508,
-        longitude: 4.929309666406198,
+        latitude: 52.370216,
+        longitude: 4.895168,
         zoom: 13,
       },
     },
@@ -167,8 +167,8 @@ export const offers:Offer[] = [
     description:
       'Relax, rejuvenate and unplug in this ultimate rustic getaway experience in the country. In our beautiful screened Pondhouse, you can gaze at the stars and listen to the sounds of nature from your cozy warm bed.',
     location: {
-      latitude: 51.236402000000005,
-      longitude: 6.784314,
+      latitude: 52.3909553943508,
+      longitude: 4.929309666406198,
       zoom: 16,
     },
     id: 3,
@@ -177,8 +177,8 @@ export const offers:Offer[] = [
     city: {
       name: 'Amsterdam',
       location: {
-        latitude: 52.3809553943508,
-        longitude: 4.939309666406198,
+        latitude: 52.370216,
+        longitude: 4.895168,
         zoom: 13,
       },
     },
@@ -216,8 +216,8 @@ export const offers:Offer[] = [
     description:
       'Discover daily local life in city center, friendly neighborhood, clandestine casino, karaoke, old-style artisans, art gallery and artist studio downstairs.',
     location: {
-      latitude: 51.216402,
-      longitude: 6.758314,
+      latitude: 52.3809553943508,
+      longitude: 4.939309666406198,
       zoom: 16,
     },
     id: 4,

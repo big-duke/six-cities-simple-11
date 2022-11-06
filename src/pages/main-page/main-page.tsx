@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Logo, OfferList, Map } from 'components';
 import { Helmet } from 'react-helmet-async';
 import { offers } from 'mock/offers';
@@ -5,6 +6,8 @@ type MainPageType = {
   offersCount: number;
 }
 function MainPage({ offersCount }: MainPageType): JSX.Element {
+  const city = offers[0].city;
+  const points = offers.map((offer) => offer.location);
   return (
     <>
       <Helmet>
@@ -96,7 +99,7 @@ function MainPage({ offersCount }: MainPageType): JSX.Element {
               <OfferList offers={offers} />
             </section>
             <div className="cities__right-section">
-              <Map />
+              <Map points={points} center={city.location} />
             </div>
           </div>
         </div>

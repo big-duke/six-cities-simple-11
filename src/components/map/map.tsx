@@ -1,12 +1,35 @@
-import { useRef } from 'react';
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+import { useEffect, useRef } from 'react';
+import leaflet from 'leaflet';
 import useMap from 'hooks/useMap';
-import { offers } from 'mock';
+import { Location } from 'types';
 import 'leaflet/dist/leaflet.css';
+import { defaultIcon } from './const';
 
-export default function Map ():JSX.Element {
+
+type MapProps = {
+  center: Location;
+  points: Location[];
+}
+export default function Map({ center, points }: MapProps): JSX.Element {
   const mapRef = useRef(null);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const map = useMap(mapRef, offers[0]);
+
+  const map = useMap(mapRef, center);
+  // eslint-disable-next-line no-console
+  console.log(points);
+  useEffect(() => {
+    if (map) {
+      points.forEach(({ latitude, longitude }) => {
+        leaflet
+          .marker({
+            lat: latitude,
+            lng: longitude,
+          })
+          .setIcon(defaultIcon)
+          .addTo(map);
+      });
+    }
+  }, [map, points]);
   return (
     <div
       ref={mapRef}
