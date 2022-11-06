@@ -2,34 +2,33 @@
 import { useEffect, useRef } from 'react';
 import leaflet from 'leaflet';
 import useMap from 'hooks/useMap';
-import { Location } from 'types';
+import { Location, Point } from 'types';
 import 'leaflet/dist/leaflet.css';
-import { defaultIcon } from './const';
+import { activeIcon, defaultIcon } from './const';
 
 
 type MapProps = {
   center: Location;
-  points: Location[];
+  points: Point[];
+  activePointId?: number;
 }
-export default function Map({ center, points }: MapProps): JSX.Element {
+export default function Map({ center, points, activePointId }: MapProps): JSX.Element {
   const mapRef = useRef(null);
 
   const map = useMap(mapRef, center);
-  // eslint-disable-next-line no-console
-  console.log(points);
   useEffect(() => {
     if (map) {
-      points.forEach(({ latitude, longitude }) => {
+      points.forEach(({ id, latitude, longitude }) => {
         leaflet
           .marker({
             lat: latitude,
             lng: longitude,
           })
-          .setIcon(defaultIcon)
+          .setIcon(id === activePointId ? activeIcon : defaultIcon)
           .addTo(map);
       });
     }
-  }, [map, points]);
+  }, [activePointId, map, points]);
   return (
     <div
       ref={mapRef}

@@ -2,12 +2,16 @@
 import { Logo, OfferList, Map } from 'components';
 import { Helmet } from 'react-helmet-async';
 import { offers } from 'mock/offers';
+import { useState } from 'react';
+import { Nullable, Offer, Point } from 'types';
+
 type MainPageType = {
   offersCount: number;
 }
 function MainPage({ offersCount }: MainPageType): JSX.Element {
+  const [activeCard, setActiveCard] = useState<Nullable<Offer>>(null);
   const city = offers[0].city;
-  const points = offers.map((offer) => offer.location);
+  const points: Point[] = offers.map((offer) => ({ id: offer.id, ...offer.location }));
   return (
     <>
       <Helmet>
@@ -96,10 +100,10 @@ function MainPage({ offersCount }: MainPageType): JSX.Element {
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <OfferList offers={offers} />
+              <OfferList offers={offers} setActiveCard={setActiveCard} />
             </section>
             <div className="cities__right-section">
-              <Map points={points} center={city.location} />
+              <Map center={city.location} points={points} activePointId={activeCard?.id} />
             </div>
           </div>
         </div>

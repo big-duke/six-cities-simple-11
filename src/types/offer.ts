@@ -30,3 +30,7 @@ type Host = {
   isPro: boolean;
   avatarUrl: string;
 };
+
+export type Point = Location & {
+  id: number;
+};
