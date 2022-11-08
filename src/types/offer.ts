@@ -31,6 +31,6 @@ type Host = {
   avatarUrl: string;
 };
 
-export type Point = Location & {
+export type Point = Omit<Location, 'zoom'> & {
   id: number;
 };
