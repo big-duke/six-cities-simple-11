@@ -15,11 +15,11 @@ export type Offer = {
   location: Location;
   id: number;
 };
-type City = {
+export type City = {
   name: string;
   location: Location;
 };
-type Location = {
+export type Location = {
   latitude: number;
   longitude: number;
   zoom: number;
@@ -29,4 +29,8 @@ type Host = {
   name: string;
   isPro: boolean;
   avatarUrl: string;
+};
+
+export type Point = Omit<Location, 'zoom'> & {
+  id: number;
 };

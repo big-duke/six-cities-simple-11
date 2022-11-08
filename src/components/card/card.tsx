@@ -10,7 +10,6 @@ type CardProps = {
   setActiveCard: (offer: Nullable<Offer>) => void;
 }
 function Card({ offer, setActiveCard }: CardProps): JSX.Element {
-  // eslint-disable-next-line no-console
   const offerDetailRef = generatePath(AppRoutes.ROOM, { id: offer.id.toString() });
 
   return (
