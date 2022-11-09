@@ -1,21 +1,30 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Logo, OfferList, Map } from 'components';
+import { Logo, OfferList, Map, Tabs } from 'components';
 import { Helmet } from 'react-helmet-async';
 import { offers } from 'mock/offers';
 import { useState } from 'react';
 import { Nullable, Offer, Point } from 'types';
 
+import { useAppDispatch, useAppSelector } from 'hooks/redux';
+import { changeCity } from 'store/actions';
+
 type MainPageType = {
   offersCount: number;
 }
+
 function MainPage({ offersCount }: MainPageType): JSX.Element {
   const [activeCard, setActiveCard] = useState<Nullable<Offer>>(null);
-  const city = offers[0].city;
+  const selectedCity = useAppSelector((state) => state.city);
+
+  const dispatch = useAppDispatch();
+  const handleCitySelect = (value: string) => dispatch(changeCity({ city: value }));
+
+
+  const { location:currentLocation } = offers[0].city;
   const points: Point[] = offers.map((offer) => ({ id: offer.id, ...offer.location }));
   return (
     <>
       <Helmet>
-        <title>6 Cities | Home</title>
+        <title>{`6 Cities | ${selectedCity}`}</title>
       </Helmet>
       <header className="header">
         <div className="container">
@@ -44,47 +53,12 @@ function MainPage({ offersCount }: MainPageType): JSX.Element {
 
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
-        <div className="tabs">
-          <section className="locations container">
-            <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="/">
-                  <span>Paris</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="/">
-                  <span>Cologne</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="/">
-                  <span>Brussels</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active" href="/">
-                  <span>Amsterdam</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="/">
-                  <span>Hamburg</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="/">
-                  <span>Dusseldorf</span>
-                </a>
-              </li>
-            </ul>
-          </section>
-        </div>
+        <Tabs activeTab={selectedCity} onTabClick={handleCitySelect} />
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{`${offersCount} places to stay in Amsterdam`}</b>
+              <b className="places__found">{`${offersCount} places to stay in ${selectedCity}`}</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -103,7 +77,7 @@ function MainPage({ offersCount }: MainPageType): JSX.Element {
               <OfferList offers={offers} setActiveCard={setActiveCard} />
             </section>
             <div className="cities__right-section">
-              <Map center={city.location} points={points} activePointId={activeCard?.id} />
+              <Map center={currentLocation} points={points} activePointId={activeCard?.id} />
             </div>
           </div>
         </div>
