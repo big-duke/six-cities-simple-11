@@ -1,26 +1,27 @@
 import { Logo, OfferList, Map, Tabs } from 'components';
 import { Helmet } from 'react-helmet-async';
 import { offers } from 'mock/offers';
-import { useState } from 'react';
-import { Nullable, Offer, Point } from 'types';
+import { useEffect, useState } from 'react';
+import { Nullable, Offer, Point , Location} from 'types';
 
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
-import { changeCity } from 'store/actions';
+import { changeCity, loadOffers } from 'store/actions';
 
-type MainPageType = {
-  offersCount: number;
-}
-
-function MainPage({ offersCount }: MainPageType): JSX.Element {
+function MainPage(): JSX.Element {
   const [activeCard, setActiveCard] = useState<Nullable<Offer>>(null);
   const selectedCity = useAppSelector((state) => state.city);
-
+  const citiOffers = useAppSelector((state) => state.offers.filter((offer) => offer.city.name === selectedCity));
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(loadOffers({ offers: offers.filter((offer) => offer.city.name === selectedCity) }));
+  }, [selectedCity]);
+
+  const currentLocation: Nullable<Location> = citiOffers.length ? citiOffers[0].city.location : null;
+  
   const handleCitySelect = (value: string) => dispatch(changeCity({ city: value }));
 
-
-  const { location:currentLocation } = offers[0].city;
-  const points: Point[] = offers.map((offer) => ({ id: offer.id, ...offer.location }));
+  const points: Point[] = citiOffers.map((offer) => ({ id: offer.id, ...offer.location }));
   return (
     <>
       <Helmet>
@@ -58,7 +59,7 @@ function MainPage({ offersCount }: MainPageType): JSX.Element {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{`${offersCount} places to stay in ${selectedCity}`}</b>
+              <b className="places__found">{`${citiOffers.length} places to stay in ${selectedCity}`}</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -74,10 +75,10 @@ function MainPage({ offersCount }: MainPageType): JSX.Element {
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <OfferList offers={offers} setActiveCard={setActiveCard} />
+              <OfferList offers={citiOffers} setActiveCard={setActiveCard} />
             </section>
             <div className="cities__right-section">
-              <Map center={currentLocation} points={points} activePointId={activeCard?.id} />
+              {currentLocation && <Map center={currentLocation} points={points} activePointId={activeCard?.id} />}
             </div>
           </div>
         </div>
