@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { useState, useRef, useEffect, MutableRefObject } from 'react';
 import leaflet, { Map } from 'leaflet';
 import { Nullable, Location } from 'types';
@@ -13,6 +14,7 @@ const useMap: useMapType = (mapRef, center) => {
 
   useEffect(() => {
     if (mapRef.current !== null && !isRenderedRef.current) {
+      console.log('render map');
       const instance = leaflet.map(mapRef.current, {
         center: {
           lat: center.latitude,
@@ -34,7 +36,8 @@ const useMap: useMapType = (mapRef, center) => {
       setMap(instance);
       isRenderedRef.current = true;
     }
-  }, [mapRef, center]);
+    map?.setView([center.latitude, center.longitude], center.zoom);
+  }, [mapRef, center, map]);
 
   return map;
 };

@@ -1,25 +1,27 @@
+/* eslint-disable no-console */
 import { Logo, OfferList, Map, Tabs } from 'components';
 import { Helmet } from 'react-helmet-async';
-import { offers } from 'mock/offers';
 import { useEffect, useState } from 'react';
-import { Nullable, Offer, Point , Location} from 'types';
+import { Nullable, Offer, Point, Location } from 'types';
 
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
-import { changeCity, loadOffers } from 'store/actions';
+import { changeCity, fetchOffers } from 'store/actions';
 
 function MainPage(): JSX.Element {
   const [activeCard, setActiveCard] = useState<Nullable<Offer>>(null);
+
   const selectedCity = useAppSelector((state) => state.city);
   const citiOffers = useAppSelector((state) => state.offers.filter((offer) => offer.city.name === selectedCity));
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(loadOffers({ offers: offers.filter((offer) => offer.city.name === selectedCity) }));
-  }, [selectedCity]);
+    dispatch(fetchOffers());
+  }, []);
+
 
   const currentLocation: Nullable<Location> = citiOffers.length ? citiOffers[0].city.location : null;
-  
-  const handleCitySelect = (value: string) => dispatch(changeCity({ city: value }));
+
+  const handleCitySelect = (value: string) => dispatch(changeCity(value));
 
   const points: Point[] = citiOffers.map((offer) => ({ id: offer.id, ...offer.location }));
   return (

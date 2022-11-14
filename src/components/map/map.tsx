@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { useEffect, useRef } from 'react';
 import leaflet from 'leaflet';
@@ -33,6 +34,7 @@ export default function Map({ center, points, activePointId }: MapProps): JSX.El
     <div
       ref={mapRef}
       className="cities__map"
+      style={{ height: '100%' }}
     >
     </div>
   );
