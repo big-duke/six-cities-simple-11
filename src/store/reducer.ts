@@ -6,6 +6,7 @@ import { OfferState } from './type';
 const initialState: OfferState = {
   city: 'Paris',
   offers: [],
+  pending: false,
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -18,6 +19,10 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(fetchOffers.fulfilled, (state,action) => {
       state.offers = action.payload;
+      state.pending = false;
+    })
+    .addCase(fetchOffers.pending, (state,action) => {
+      state.pending = true;
     });
 });
 

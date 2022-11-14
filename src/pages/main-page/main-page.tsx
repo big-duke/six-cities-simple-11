@@ -6,17 +6,19 @@ import { Nullable, Offer, Point, Location } from 'types';
 
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import { changeCity, fetchOffers } from 'store/actions';
+import { SpinnerCircular } from 'spinners-react';
 
 function MainPage(): JSX.Element {
   const [activeCard, setActiveCard] = useState<Nullable<Offer>>(null);
 
   const selectedCity = useAppSelector((state) => state.city);
   const citiOffers = useAppSelector((state) => state.offers.filter((offer) => offer.city.name === selectedCity));
+  const pending = useAppSelector((state) => state.pending);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(fetchOffers());
-  }, []);
+  }, [dispatch, selectedCity]);
 
 
   const currentLocation: Nullable<Location> = citiOffers.length ? citiOffers[0].city.location : null;
@@ -57,7 +59,7 @@ function MainPage(): JSX.Element {
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <Tabs activeTab={selectedCity} onTabClick={handleCitySelect} />
-        <div className="cities">
+        { pending ? <SpinnerCircular/> : <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
@@ -83,7 +85,8 @@ function MainPage(): JSX.Element {
               {currentLocation && <Map center={currentLocation} points={points} activePointId={activeCard?.id} />}
             </div>
           </div>
-        </div>
+          {/* eslint-disable-next-line react/jsx-closing-tag-location */}
+        </div> }
       </main>
     </>
   );
