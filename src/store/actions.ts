@@ -3,12 +3,13 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 
-import { Offer } from 'types';
+import { Offer, SortOrder } from 'types';
 
 enum AppActions {
   CHANGE_CITY = 'CHANGE_CITY',
   LOAD_OFFERS = 'LOAD_OFFERS',
   FETCH_OFFERS = 'FETCH_OFFERS',
+  SORT_OFFERS = 'SORT_OFFERS',
 }
 export const changeCity = createAction<string>(AppActions.CHANGE_CITY);
 
@@ -26,3 +27,5 @@ export const fetchOffers = createAsyncThunk<
 
   return data;
 });
+
+export const sortOffers = createAction<SortOrder>(AppActions.SORT_OFFERS);

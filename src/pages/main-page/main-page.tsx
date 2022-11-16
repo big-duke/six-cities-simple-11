@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { Logo, OfferList, Map, Tabs } from 'components';
+import { Logo, OfferList, Map, Tabs, Sort } from 'components';
 import { Helmet } from 'react-helmet-async';
 import { useEffect, useState } from 'react';
 import { Nullable, Offer, Point, Location } from 'types';
@@ -7,6 +7,7 @@ import { Nullable, Offer, Point, Location } from 'types';
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import { changeCity, fetchOffers } from 'store/actions';
 import { SpinnerCircular } from 'spinners-react';
+
 
 function MainPage(): JSX.Element {
   const [activeCard, setActiveCard] = useState<Nullable<Offer>>(null);
@@ -18,7 +19,7 @@ function MainPage(): JSX.Element {
 
   useEffect(() => {
     dispatch(fetchOffers());
-  }, [dispatch, selectedCity]);
+  }, []);
 
 
   const currentLocation: Nullable<Location> = citiOffers.length ? citiOffers[0].city.location : null;
@@ -59,34 +60,23 @@ function MainPage(): JSX.Element {
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <Tabs activeTab={selectedCity} onTabClick={handleCitySelect} />
-        { pending ? <SpinnerCircular/> : <div className="cities">
+        <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{`${citiOffers.length} places to stay in ${selectedCity}`}</b>
-              <form className="places__sorting" action="#" method="get">
-                <span className="places__sorting-caption">Sort by</span>
-                <span className="places__sorting-type" tabIndex={0}>
-                  Popular
-                  <svg className="places__sorting-arrow" width="7" height="4">
-                    <use xlinkHref="#icon-arrow-select"></use>
-                  </svg>
-                </span>
-                <ul className="places__options places__options--custom">
-                  <li className="places__option places__option--active" tabIndex={0}>Popular</li>
-                  <li className="places__option" tabIndex={0}>Price: low to high</li>
-                  <li className="places__option" tabIndex={0}>Price: high to low</li>
-                  <li className="places__option" tabIndex={0}>Top rated first</li>
-                </ul>
-              </form>
-              <OfferList offers={citiOffers} setActiveCard={setActiveCard} />
+              <b className="places__found">{pending ? 'Loading offers ...' : `${citiOffers.length} places to stay in ${selectedCity}`}</b>
+              <Sort />
+
+              {pending ? <SpinnerCircular /> : <OfferList offers={citiOffers} setActiveCard={setActiveCard} />}
+
             </section>
+
             <div className="cities__right-section">
               {currentLocation && <Map center={currentLocation} points={points} activePointId={activeCard?.id} />}
             </div>
           </div>
           {/* eslint-disable-next-line react/jsx-closing-tag-location */}
-        </div> }
+        </div>
       </main>
     </>
   );
