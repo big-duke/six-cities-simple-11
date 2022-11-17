@@ -13,7 +13,7 @@ const compareOffers: Record<SortOrder, (a: Offer, b: Offer) => number> = {
   'Top rated first': (a: Offer, b: Offer) => b.rating - a.rating,
   'Price: high to low': (a: Offer, b: Offer) => b.price - a.price,
   'Price: low to high': (a: Offer, b: Offer) => a.price - b.price,
-  Popular: (a: Offer, b: Offer) => -1,
+  Popular: () => 0,
 };
 
 function MainPage(): JSX.Element {
