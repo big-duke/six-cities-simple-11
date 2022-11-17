@@ -2,18 +2,27 @@
 import { Logo, OfferList, Map, Tabs, Sort } from 'components';
 import { Helmet } from 'react-helmet-async';
 import { useEffect, useState } from 'react';
-import { Nullable, Offer, Point, Location } from 'types';
+import { Nullable, Offer, Point, Location, SortOrder } from 'types';
 
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import { changeCity, fetchOffers } from 'store/actions';
 import { SpinnerCircular } from 'spinners-react';
 
 
+const compareOffers: Record<SortOrder, (a: Offer, b: Offer) => number> = {
+  'Top rated first': (a: Offer, b: Offer) => b.rating - a.rating,
+  'Price: high to low': (a: Offer, b: Offer) => b.price - a.price,
+  'Price: low to high': (a: Offer, b: Offer) => a.price - b.price,
+  Popular: (a: Offer, b: Offer) => -1,
+};
+
 function MainPage(): JSX.Element {
   const [activeCard, setActiveCard] = useState<Nullable<Offer>>(null);
 
   const selectedCity = useAppSelector((state) => state.city);
-  const citiOffers = useAppSelector((state) => state.offers.filter((offer) => offer.city.name === selectedCity));
+  const sortOrder = useAppSelector((state) => state.sortOrder);
+  const compareFn = compareOffers[sortOrder];
+  const citiOffers = useAppSelector((state) => state.offers.filter((offer) => offer.city.name === selectedCity).sort(compareFn));
   const pending = useAppSelector((state) => state.pending);
   const dispatch = useAppDispatch();
 
