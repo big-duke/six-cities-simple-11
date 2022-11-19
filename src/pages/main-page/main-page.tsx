@@ -1,25 +1,39 @@
-import { Logo, OfferList, Map, Tabs } from 'components';
+/* eslint-disable no-console */
+import { Logo, OfferList, Map, Tabs, Sort } from 'components';
 import { Helmet } from 'react-helmet-async';
-import { offers } from 'mock/offers';
 import { useEffect, useState } from 'react';
-import { Nullable, Offer, Point , Location} from 'types';
+import { Nullable, Offer, Point, Location, SortOrder } from 'types';
 
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
-import { changeCity, loadOffers } from 'store/actions';
+import { changeCity, fetchOffers } from 'store/actions';
+import { SpinnerCircular } from 'spinners-react';
+
+
+const compareOffers: Record<SortOrder, (a: Offer, b: Offer) => number> = {
+  'Top rated first': (a: Offer, b: Offer) => b.rating - a.rating,
+  'Price: high to low': (a: Offer, b: Offer) => b.price - a.price,
+  'Price: low to high': (a: Offer, b: Offer) => a.price - b.price,
+  Popular: () => 0,
+};
 
 function MainPage(): JSX.Element {
   const [activeCard, setActiveCard] = useState<Nullable<Offer>>(null);
+
   const selectedCity = useAppSelector((state) => state.city);
-  const citiOffers = useAppSelector((state) => state.offers.filter((offer) => offer.city.name === selectedCity));
+  const sortOrder = useAppSelector((state) => state.sortOrder);
+  const compareFn = compareOffers[sortOrder];
+  const citiOffers = useAppSelector((state) => state.offers.filter((offer) => offer.city.name === selectedCity).sort(compareFn));
+  const pending = useAppSelector((state) => state.pending);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(loadOffers({ offers: offers.filter((offer) => offer.city.name === selectedCity) }));
-  }, [selectedCity]);
+    dispatch(fetchOffers());
+  }, []);
+
 
   const currentLocation: Nullable<Location> = citiOffers.length ? citiOffers[0].city.location : null;
-  
-  const handleCitySelect = (value: string) => dispatch(changeCity({ city: value }));
+
+  const handleCitySelect = (value: string) => dispatch(changeCity(value));
 
   const points: Point[] = citiOffers.map((offer) => ({ id: offer.id, ...offer.location }));
   return (
@@ -59,28 +73,18 @@ function MainPage(): JSX.Element {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{`${citiOffers.length} places to stay in ${selectedCity}`}</b>
-              <form className="places__sorting" action="#" method="get">
-                <span className="places__sorting-caption">Sort by</span>
-                <span className="places__sorting-type" tabIndex={0}>
-                  Popular
-                  <svg className="places__sorting-arrow" width="7" height="4">
-                    <use xlinkHref="#icon-arrow-select"></use>
-                  </svg>
-                </span>
-                <ul className="places__options places__options--custom">
-                  <li className="places__option places__option--active" tabIndex={0}>Popular</li>
-                  <li className="places__option" tabIndex={0}>Price: low to high</li>
-                  <li className="places__option" tabIndex={0}>Price: high to low</li>
-                  <li className="places__option" tabIndex={0}>Top rated first</li>
-                </ul>
-              </form>
-              <OfferList offers={citiOffers} setActiveCard={setActiveCard} />
+              <b className="places__found">{pending ? 'Loading offers ...' : `${citiOffers.length} places to stay in ${selectedCity}`}</b>
+              <Sort />
+
+              {pending ? <SpinnerCircular /> : <OfferList offers={citiOffers} setActiveCard={setActiveCard} />}
+
             </section>
+
             <div className="cities__right-section">
               {currentLocation && <Map center={currentLocation} points={points} activePointId={activeCard?.id} />}
             </div>
           </div>
+          {/* eslint-disable-next-line react/jsx-closing-tag-location */}
         </div>
       </main>
     </>
