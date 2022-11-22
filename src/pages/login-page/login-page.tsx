@@ -1,7 +1,25 @@
 import { Logo } from 'components';
+import { useAppDispatch } from 'hooks/redux';
+import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { useNavigate } from 'react-router-dom';
+import { AppRoutes } from 'router';
+
+import { login } from 'store/api-action';
 
 function LoginPage(): JSX.Element {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value);
+  const handlePwdChange = (e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value);
+  const dispatch = useAppDispatch();
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    dispatch(login({ email, password }));
+    navigate(AppRoutes.MAIN);
+  };
+
   return (
 
     <div className="page page--gray page--login">
@@ -26,14 +44,14 @@ function LoginPage(): JSX.Element {
         <div className="page__login-container container">
           <section className="login">
             <h1 className="login__title">Sign in</h1>
-            <form className="login__form form" action="#" method="post">
+            <form className="login__form form" onSubmit={handleFormSubmit}>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
-                <input className="login__input form__input" type="email" name="email" placeholder="Email" required />
+                <input value={email} onChange={handleEmailChange} className="login__input form__input" type="email" name="email" placeholder="Email" required />
               </div>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">Password</label>
-                <input className="login__input form__input" type="password" name="password" placeholder="Password" required />
+                <input value={password} onChange={handlePwdChange} className="login__input form__input" type="password" name="password" placeholder="Password" required />
               </div>
               <button className="login__submit form__submit button" type="submit">Sign in</button>
             </form>

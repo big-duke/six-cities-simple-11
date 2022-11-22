@@ -1,12 +1,13 @@
 /* eslint-disable no-console */
-import { Logo, OfferList, Map, Tabs, Sort } from 'components';
+import { Logo, OfferList, Map, Tabs, Sort, Header } from 'components';
 import { Helmet } from 'react-helmet-async';
 import { useEffect, useState } from 'react';
 import { Nullable, Offer, Point, Location, SortOrder } from 'types';
 
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
-import { changeCity, fetchOffers } from 'store/actions';
+import { changeCity } from 'store/actions';
 import { SpinnerCircular } from 'spinners-react';
+import { fetchOffers } from 'store/api-action';
 
 
 const compareOffers: Record<SortOrder, (a: Offer, b: Offer) => number> = {
@@ -18,7 +19,6 @@ const compareOffers: Record<SortOrder, (a: Offer, b: Offer) => number> = {
 
 function MainPage(): JSX.Element {
   const [activeCard, setActiveCard] = useState<Nullable<Offer>>(null);
-
   const selectedCity = useAppSelector((state) => state.city);
   const sortOrder = useAppSelector((state) => state.sortOrder);
   const compareFn = compareOffers[sortOrder];
@@ -28,7 +28,8 @@ function MainPage(): JSX.Element {
 
   useEffect(() => {
     dispatch(fetchOffers());
-  }, []);
+
+  }, [dispatch]);
 
 
   const currentLocation: Nullable<Location> = citiOffers.length ? citiOffers[0].city.location : null;
@@ -47,21 +48,7 @@ function MainPage(): JSX.Element {
             <div className="header__left">
               <Logo />
             </div>
-            <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <div className="header__nav-profile">
-                    <div className="header__avatar-wrapper user__avatar-wrapper"></div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                  </div>
-                </li>
-                <li className="header__nav-item">
-                  <a className="header__nav-link" href="/">
-                    <span className="header__signout">Sign out</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
+            <Header />
           </div>
         </div>
       </header>

@@ -5,3 +5,18 @@ export type Nullable<T> = T | null;
 
 export const sortOrder = ['Popular','Price: low to high','Price: high to low','Top rated first'] as const;
 export type SortOrder = typeof sortOrder[number];
+
+export enum AuthorizationStatus {
+  Auth = 'AUTH',
+  NoAuth = 'NO_AUTH',
+  Unknown = 'UNKNOWN',
+}
+
+export type User = {
+  avatarUrl: string;
+  email: string;
+  id: number;
+  isPro: boolean;
+  name: string;
+  token: string;
+  }

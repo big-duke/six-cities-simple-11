@@ -2,9 +2,13 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { MainPage, LoginPage, RoomPage, NotFoundPage } from 'pages';
 import { AppRoutes } from 'router';
 import { HelmetProvider } from 'react-helmet-async';
+import { useAppDispatch } from 'hooks/redux';
+import { checkAuth } from 'store/api-action';
 
 
 function App(): JSX.Element {
+  const dispatch = useAppDispatch();
+  dispatch(checkAuth());
   return (
     <HelmetProvider>
       <BrowserRouter>
