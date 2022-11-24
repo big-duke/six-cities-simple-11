@@ -1,11 +1,11 @@
-import { AuthorizationStatus, Offer, SortOrder, User } from 'types';
+import { AuthStatus, Offer, SortOrder, User } from 'types';
 
 export type OfferState = {
   city: string;
   offers: Offer[];
   pending: boolean;
   sortOrder: SortOrder;
-  authorizationStatus: AuthorizationStatus;
+  authorizationStatus: AuthStatus;
   user:User;
 
 };

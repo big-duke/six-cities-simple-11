@@ -1,10 +1,11 @@
+/* eslint-disable no-console */
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { AppDispatch, RootState } from 'store';
 import { dropToken, saveToken } from 'token';
 
-import { AuthorizationStatus, Offer, User } from 'types';
-import { auth, setUser } from './actions';
+import { AuthStatus, Offer, User } from 'types';
+import { setAuth, setUser } from './actions';
 
 export const fetchOffers = createAsyncThunk<
   Offer[],
@@ -12,10 +13,8 @@ export const fetchOffers = createAsyncThunk<
   {
     extra: AxiosInstance;
   }
->('fetchOffers', async (_arg, { extra: api }) => {
-  const response = await api.get('/hotels');
-  const data = response.data as Offer[];
-
+>('offers/fetchOffers', async (_arg, { extra: api }) => {
+  const { data } = await api.get<Offer[]>('/hotels');
   return data;
 });
 
@@ -29,10 +28,11 @@ export const checkAuth = createAsyncThunk<
   }
 >('user/checkAuth', async (_arg, { dispatch, extra: api }) => {
   try {
-    await api.get('/login');
-    dispatch(auth(AuthorizationStatus.Auth));
-  } catch {
-    dispatch(auth(AuthorizationStatus.NoAuth));
+    const { data: user } = await api.get<User>('/login');
+    dispatch(setAuth(AuthStatus.Auth));
+    dispatch(setUser(user));
+  } catch (e) {
+    dispatch(setAuth(AuthStatus.Unknown));
   }
 });
 
@@ -47,29 +47,28 @@ export const login = createAsyncThunk<
 >('user/login', async (args, { dispatch, extra: api }) => {
   const { email, password } = args;
   try {
-    const res = await api.post('/login', { email, password });
-    const user:User = res.data as User;
+    const { data: user } = await api.post<User>('/login', { email, password });
     saveToken(user.token);
-    dispatch(auth(AuthorizationStatus.Auth));
+    dispatch(setAuth(AuthStatus.Auth));
     dispatch(setUser(user));
   } catch {
-    dispatch(auth(AuthorizationStatus.NoAuth));
+    dispatch(setAuth(AuthStatus.Unknown));
   }
 });
 
 export const logout = createAsyncThunk<
-  void, undefined ,
+  void,
+  undefined,
   {
     dispatch: AppDispatch;
     extra: AxiosInstance;
   }
->('user/login', async (_args, { dispatch, extra: api }) => {
-
+>('user/logout', async (_args, { dispatch, extra: api }) => {
   try {
-    await api.delete('/login');
+    await api.delete('/logout');
     dropToken();
-    dispatch(auth(AuthorizationStatus.NoAuth));
+    dispatch(setAuth(AuthStatus.NoAuth));
   } catch {
-    dispatch(auth(AuthorizationStatus.NoAuth));
+    dispatch(setAuth(AuthStatus.Unknown));
   }
 });

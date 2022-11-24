@@ -4,10 +4,10 @@ import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import { Link } from 'react-router-dom';
 import { AppRoutes } from 'router';
 import { logout } from 'store/api-action';
-import { AuthorizationStatus } from 'types';
+import { AuthStatus } from 'types';
 
 function Header(): JSX.Element {
-  const {user, authorizationStatus:auth} = useAppSelector((state) => state);
+  const { user, authorizationStatus: auth } = useAppSelector((state) => state);
   const dispatch = useAppDispatch();
   const handleLogout = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
@@ -17,11 +17,13 @@ function Header(): JSX.Element {
     <nav className="header__nav">
       <ul className="header__nav-list">
         {
-          auth === AuthorizationStatus.Auth ?
+          auth === AuthStatus.Auth ?
             <>
               <li className="header__nav-item user">
                 <div className="header__nav-profile">
-                  <div className="header__avatar-wrapper user__avatar-wrapper"></div>
+                  <div className="header__avatar-wrapper user__avatar-wrapper">
+                    <img style={{ borderRadius: '50%' }} src={user.avatarUrl} alt={user.name} title={user.name} />
+                  </div>
                   <span className="header__user-name user__name">{user.email}</span>
                 </div>
               </li>

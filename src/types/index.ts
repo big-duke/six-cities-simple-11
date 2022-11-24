@@ -6,7 +6,7 @@ export type Nullable<T> = T | null;
 export const sortOrder = ['Popular','Price: low to high','Price: high to low','Top rated first'] as const;
 export type SortOrder = typeof sortOrder[number];
 
-export enum AuthorizationStatus {
+export enum AuthStatus {
   Auth = 'AUTH',
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN',

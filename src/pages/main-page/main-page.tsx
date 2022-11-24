@@ -28,7 +28,6 @@ function MainPage(): JSX.Element {
 
   useEffect(() => {
     dispatch(fetchOffers());
-
   }, [dispatch]);
 
 

@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { AuthorizationStatus, User } from 'types';
+import { AuthStatus, User } from 'types';
 
-import { auth, changeCity,setOffers, setUser, sortOffers } from './actions';
+import { setAuth, changeCity, setUser, sortOffers } from './actions';
 import { fetchOffers } from './api-action';
 import { OfferState } from './type';
 
@@ -10,7 +10,7 @@ const initialState: OfferState = {
   offers: [],
   pending: false,
   sortOrder: 'Popular',
-  authorizationStatus: AuthorizationStatus.Unknown,
+  authorizationStatus: AuthStatus.Unknown,
   user: {} as User,
 };
 
@@ -18,9 +18,6 @@ const reducer = createReducer(initialState, (builder) => {
   builder
     .addCase(changeCity, (state, action) => {
       state.city = action.payload;
-    })
-    .addCase(setOffers, (state, action) => {
-      state.offers = action.payload;
     })
     .addCase(fetchOffers.fulfilled, (state, action) => {
       state.offers = action.payload;
@@ -32,7 +29,7 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(sortOffers, (state, action) => {
       state.sortOrder = action.payload;
     })
-    .addCase(auth, (state,action) => {
+    .addCase(setAuth, (state,action) => {
       state.authorizationStatus = action.payload;
     })
     .addCase(setUser, (state,action) => {

@@ -1,11 +1,9 @@
 import { createAction } from '@reduxjs/toolkit';
-import { AuthorizationStatus, Offer, SortOrder, User } from 'types';
+import { AuthStatus, SortOrder, User } from 'types';
 
+export const sortOffers = createAction<SortOrder>('offers/sort');
 
-export const changeCity = createAction<string>('changeCity');
+export const changeCity = createAction<string>('offers/changeCity');
 
-export const auth = createAction<AuthorizationStatus>('auth');
-
-export const sortOffers = createAction<SortOrder>('sort');
-export const setOffers = createAction<Offer[]>('loadOffers');
-export const setUser = createAction<User>('setUser');
+export const setAuth = createAction<AuthStatus>('user/setAuth');
+export const setUser = createAction<User>('auth/setUser');
