@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
+import React from 'react';
 
 import { Link } from 'react-router-dom';
 import { AppRoutes } from 'router';
@@ -7,7 +8,8 @@ import { logout } from 'store/api-action';
 import { AuthStatus } from 'types';
 
 function Header(): JSX.Element {
-  const { user, authorizationStatus: auth } = useAppSelector((state) => state);
+  const user = useAppSelector((state) => state.user);
+  const auth = useAppSelector((state) => state.authorizationStatus);
   const dispatch = useAppDispatch();
   const handleLogout = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
@@ -42,4 +44,5 @@ function Header(): JSX.Element {
     </nav>
   );
 }
-export default Header;
+export const MemoizedHeader = React.memo(Header);
+

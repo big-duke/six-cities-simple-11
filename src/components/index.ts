@@ -13,4 +13,4 @@ export { default as PropertyCommentForm } from './property-comment-form/comment-
 export {default as Map} from './map/map';
 export {default as Tabs} from './tabs/tabs';
 export {default as Sort} from './sort-options/sort-options';
-export {default as Header} from './header/header';
+export {MemoizedHeader as Header} from './header/header';
